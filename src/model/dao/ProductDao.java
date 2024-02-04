@@ -11,4 +11,5 @@ public interface ProductDao {
     void update(Product obj);
     List<Product> findAll();
     Optional<Product> findById(Integer id);
+    List<Product> findByName(String name);
 }

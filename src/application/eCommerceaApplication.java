@@ -37,15 +37,41 @@ public class eCommerceaApplication {
 				}
                 break;
             case 2:
-                System.out.print("Digite o ID do produto que deseja buscar:");
-                int productId = scanner.nextInt();
-                Product foundProduct = productDao.findById(productId).orElse(null);
-                if (foundProduct != null) {
-                    System.out.println("Produto encontrado:");
-                    System.out.println(foundProduct);
-                } else {
-                    System.out.println("Produto não encontrado.");
-                }
+                System.out.println("Como deseja buscar o produto?");
+                System.out.println("1 - Por ID");
+                System.out.println("2 - Por nome");
+                System.out.print("Opção: ");
+                int searchOption = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer de entrada
+            
+                switch (searchOption) {
+                    case 1:
+                        System.out.print("Digite o ID do produto que deseja buscar:");
+                        int productId = scanner.nextInt();
+                        Product foundProductById = productDao.findById(productId).orElse(null);
+                        if (foundProductById != null) {
+                            System.out.println("Produto encontrado:");
+                            System.out.println(foundProductById);
+                        } else {
+                            System.out.println("Produto não encontrado.");
+                        }
+                        break;
+                    case 2:
+                        System.out.print("Digite o nome do produto que deseja buscar:");
+                        String productName = scanner.nextLine();
+                        List<Product> foundProductsByName = productDao.findByName(productName);
+                        if (!foundProductsByName.isEmpty()) {
+                            System.out.println("Produtos encontrados:");
+                            for (Product product : foundProductsByName) {
+                                System.out.println(product);
+                            }
+                        } else {
+                            System.out.println("Nenhum produto encontrado com esse nome.");
+                        }
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
                 break;
             case 3:
 				System.out.println("Test Insert product");
