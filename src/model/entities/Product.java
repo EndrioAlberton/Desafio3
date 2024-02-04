@@ -7,17 +7,17 @@ public class Product implements Serializable {
     private static final long serialVersionUID = 1L; 
     private int id;
     private String name;
-    private double price;
+	private String description;
+    private double value;
     private int quantity;
     
 	public Product() {
 	}
 
-	public Product(int id, String name, double price, int quantity) {
-		super();
-		this.id = id;
+	public Product(String name, String description, double value, int quantity) {
 		this.name = name;
-		this.price = price;
+		this.description = description;
+		this.value = value;
 		this.quantity = quantity;
 	}
 
@@ -37,12 +37,20 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
 	}
 
 	public int getQuantity() {
@@ -52,4 +60,6 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	
 }
