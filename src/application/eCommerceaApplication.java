@@ -23,8 +23,6 @@ public class eCommerceaApplication {
         System.out.print("Opção: ");
 
         int opcao = scanner.nextInt();
-		scanner.close();
-
         switch (opcao) {
             case 1:
 				List<Product> productList = productDao.findAll();
@@ -39,10 +37,17 @@ public class eCommerceaApplication {
 				}
                 break;
             case 2:
-                // Buscar produto: Retorna as informações de um produto específico.
+                System.out.print("Digite o ID do produto que deseja buscar:");
+                int productId = scanner.nextInt();
+                Product foundProduct = productDao.findById(productId).orElse(null);
+                if (foundProduct != null) {
+                    System.out.println("Produto encontrado:");
+                    System.out.println(foundProduct);
+                } else {
+                    System.out.println("Produto não encontrado.");
+                }
                 break;
             case 3:
-
 				System.out.println("Test Insert product");
 				Product newProduct = new Product( "Product name", "Description", 150.0, 2);
 				productDao.insert(newProduct);
@@ -57,5 +62,6 @@ public class eCommerceaApplication {
             default:
                 System.out.println("Opção inválida.");
         }
+        scanner.close();
 	}
 }

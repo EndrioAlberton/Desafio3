@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import db.DB;
 import db.DbException;
 import model.dao.ProductDao;
@@ -79,6 +81,27 @@ public class ProductDaoJDBC implements ProductDao{
             }
             return listProducts;
 
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    @Override
+    public Optional<Product> findById(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM products WHERE id = ?");
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                Product product = instantiateProduct(rs);
+                return Optional.of(product);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
