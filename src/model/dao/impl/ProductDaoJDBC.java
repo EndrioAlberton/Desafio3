@@ -11,7 +11,7 @@ import db.DbException;
 import model.dao.ProductDao;
 import model.entities.Product;
 
-public class ProductDaoJDBC implements ProductDao{
+public class ProductDaoJDBC implements ProductDao {
 
     private Connection conn;
 
@@ -26,7 +26,7 @@ public class ProductDaoJDBC implements ProductDao{
             System.out.println("The product name can't be empty");
             return;
         }
-        
+
         if (isProductExists(obj.getName())) {
             System.out.println("Product with the same name already exists");
             return;
@@ -36,8 +36,8 @@ public class ProductDaoJDBC implements ProductDao{
             System.out.println("The description needs at least 10 characters");
             return;
         }
-        
-        if (obj.getValue() < 0) { 
+
+        if (obj.getValue() < 0) {
             System.out.println("The value must be positive");
             return;
         }
@@ -47,15 +47,15 @@ public class ProductDaoJDBC implements ProductDao{
             return;
         }
 
-        PreparedStatement st = null; 
+        PreparedStatement st = null;
         try {
-            st = conn.prepareStatement (
-                
-                "INSERT INTO products "
-                + "(id, name, value, description, quantity) "
-                + "VALUES "
-                + "(?, ?, ?, ?, ?)", 
-                Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement(
+
+                    "INSERT INTO products "
+                            + "(id, name, value, description, quantity) "
+                            + "VALUES "
+                            + "(?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
@@ -102,7 +102,51 @@ public class ProductDaoJDBC implements ProductDao{
 
     @Override
     public void updateProduct(Product obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (obj.getName().length() < 1) {
+            System.out.println("The product name can't be empty");
+            return;
+        }
+
+        if (isProductExists(obj.getName())) {
+            System.out.println("Product with the same name already exists");
+            return;
+        }
+
+        if (obj.getDescription().length() < 10) {
+            System.out.println("The description needs at least 10 characters");
+            return;
+        }
+
+        if (obj.getValue() < 0) {
+            System.out.println("The value must be positive");
+            return;
+        }
+
+        if (obj.getQuantity() < 1) {
+            System.out.println("Quantity needs at least 1 item");
+            return;
+        }
+
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+                    "UPDATE products "
+                    + "SET name = ?, value = ?, description = ?, quantity = ? "
+                    + "WHERE id = ?");
+
+                st.setString(1, obj.getName());
+                st.setDouble(2, obj.getValue());
+                st.setString(3, obj.getDescription());
+                st.setInt(4, obj.getQuantity());
+                st.setInt(5, obj.getId());
+
+                st.executeUpdate();
+
+            System.out.println("Updated!");
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+            } finally {
+                DB.closeStatement(st);
+            }
     }
 }

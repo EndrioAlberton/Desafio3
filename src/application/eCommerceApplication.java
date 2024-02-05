@@ -17,5 +17,10 @@ public class eCommerceApplication {
 		} else {
 			System.out.println("Product not iserted!");
 		}
+
+
+		System.out.println("Test Update product");
+		Product updatedProduct = new Product(14, "Test", "Product description", 150.0, 1);
+		productDao.updateProduct(updatedProduct);
 	}
 }
