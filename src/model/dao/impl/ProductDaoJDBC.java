@@ -42,6 +42,11 @@ public class ProductDaoJDBC implements ProductDao{
             return;
         }
 
+        if (obj.getQuantity() < 1) {
+            System.out.println("Quantity needs at least 1 item");
+            return;
+        }
+
 
 
         PreparedStatement st = null; 
