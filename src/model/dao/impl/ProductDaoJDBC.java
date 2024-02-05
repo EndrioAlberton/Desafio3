@@ -20,7 +20,7 @@ public class ProductDaoJDBC implements ProductDao{
     }
 
     @Override
-    public void insert(Product obj) {
+    public void createProduct(Product obj) {
 
         if (obj.getName().length() < 1) {
             System.out.println("The product name can't be empty");
@@ -47,10 +47,7 @@ public class ProductDaoJDBC implements ProductDao{
             return;
         }
 
-
-
         PreparedStatement st = null; 
-
         try {
             st = conn.prepareStatement (
                 
@@ -104,7 +101,7 @@ public class ProductDaoJDBC implements ProductDao{
     }
 
     @Override
-    public void update(Product obj) {
+    public void updateProduct(Product obj) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
