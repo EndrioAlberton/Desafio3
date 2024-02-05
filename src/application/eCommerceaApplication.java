@@ -10,8 +10,12 @@ public class eCommerceaApplication {
 		ProductDao productDao = DaoFactory.createProductDao();
 
 		System.out.println("Test Insert product");
-		Product newProduct = new Product( "Product name", "Description", 150.0, 2);
+		Product newProduct = new Product( "Product name", "Product description", 150.0, 2);
 		productDao.insert(newProduct);
-		System.out.println("Inserted! New id = " + newProduct.getId());
+		if (newProduct.getId() > 0) {
+			System.out.println("Inserted! New id = " + newProduct.getId());
+		} else {
+			System.out.println("Product not iserted!");
+		}
 	}
 }

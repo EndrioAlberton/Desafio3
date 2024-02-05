@@ -21,7 +21,31 @@ public class ProductDaoJDBC implements ProductDao{
 
     @Override
     public void insert(Product obj) {
+
+        if (obj.getName().length() < 1) {
+            System.out.println("The product name can't be empty");
+            return;
+        }
+        
+        if (isProductExists(obj.getName())) {
+            System.out.println("Product with the same name already exists");
+            return;
+        }
+
+        if (obj.getDescription().length() < 10) {
+            System.out.println("The description needs at least 10 characters");
+            return;
+        }
+        
+        if (obj.getValue() < 0) { 
+            System.out.println("The value must be positive");
+            return;
+        }
+
+
+
         PreparedStatement st = null; 
+
         try {
             st = conn.prepareStatement (
                 
@@ -30,6 +54,7 @@ public class ProductDaoJDBC implements ProductDao{
                 + "VALUES "
                 + "(?, ?, ?, ?, ?)", 
                 Statement.RETURN_GENERATED_KEYS);
+
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
@@ -54,6 +79,23 @@ public class ProductDaoJDBC implements ProductDao{
         } finally {
             DB.closeStatement(st);
         }
+
+    }
+
+    private boolean isProductExists(String productName) {
+        String sql = "SELECT COUNT(*) AS count FROM products WHERE name = ?";
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, productName);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("count");
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking product existence: " + e.getMessage(), e);
+        }
+        return false;
     }
 
     @Override
