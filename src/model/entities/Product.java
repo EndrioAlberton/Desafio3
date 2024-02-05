@@ -68,6 +68,15 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
+    
+    public String toString() {
+        return "{\n" +
+                " \"id\": " + id + ",\n" +
+                " \"name\": \"" + name + "\",\n" +
+                " \"description\": \"" + description + "\",\n" +
+                " \"value\": " + value + ",\n" +
+                " \"quantity\": " + quantity + "\n" +
+                "}";
+    }
 	
 }
