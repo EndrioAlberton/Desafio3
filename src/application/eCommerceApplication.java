@@ -7,25 +7,24 @@ import model.dao.DaoFactory;
 import model.dao.ProductDao;
 import model.entities.Product;
 
-public class eCommerceaApplication {
+public class eCommerceApplication {
     public static void main(String[] args) {
 
+	Scanner scanner = new Scanner(System.in);
+	ProductDao productDao = DaoFactory.createProductDao();
 
-		Scanner scanner = new Scanner(System.in);
-		ProductDao productDao = DaoFactory.createProductDao();
+    System.out.println("Selecione uma opção:");
+    System.out.println("1 - Lista produto: deve retornar todos os produtos.");
+    System.out.println("2 - Buscar produto: Retorna as informações de um produto específico.");
+    System.out.println("3 - Cadastrar pedido: Cria um novo produto.");
+    System.out.println("4 - Atualizar produto: atualiza as informações de um pedido existente.");
+    System.out.println("5 - Excluir produto: Excluir um produto existente.");
+    System.out.print("Opção: ");
 
-        System.out.println("Selecione uma opção:");
-        System.out.println("1 - Lista produto: deve retornar todos os produtos.");
-        System.out.println("2 - Buscar produto: Retorna as informações de um produto específico.");
-        System.out.println("3 - Cadastrar pedido: Cria um novo produto.");
-        System.out.println("4 - Atualizar produto: atualiza as informações de um pedido existente.");
-        System.out.println("5 - Excluir produto: Excluir um produto existente.");
-        System.out.print("Opção: ");
+    int opcao = scanner.nextInt();
+	scanner.close();
 
-        int opcao = scanner.nextInt();
-		scanner.close();
-
-        switch (opcao) {
+	switch (opcao) {
             case 1:
 				List<Product> productList = productDao.findAll();
 				System.out.println("Todos os produtos:");
@@ -42,11 +41,14 @@ public class eCommerceaApplication {
                 // Buscar produto: Retorna as informações de um produto específico.
                 break;
             case 3:
-
 				System.out.println("Test Insert product");
-				Product newProduct = new Product( "Product name", "Description", 150.0, 2);
-				productDao.insert(newProduct);
-				System.out.println("Inserted! New id = " + newProduct.getId());
+				Product newProduct = new Product( "Product name", "Product description", 150.0, 1);
+				productDao.createProduct(newProduct);
+				if (newProduct.getId() > 0) {
+					System.out.println("Inserted! New id = " + newProduct.getId());
+				} else {
+					System.out.println("Product not iserted!");
+				}
                 break;
             case 4:
                 // Atualizar produto: atualiza as informações de um pedido existente.
@@ -55,7 +57,7 @@ public class eCommerceaApplication {
                 // Excluir produto: Excluir um produto existente.
                 break;
             default:
-                System.out.println("Opção inválida.");
-        }
+ 		System.out.println("Opção inválida.");
+		}
 	}
 }
