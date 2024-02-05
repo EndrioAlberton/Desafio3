@@ -60,4 +60,18 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+<<<<<<< HEAD
+=======
+    
+    public String toString() {
+        return "{\n" +
+                " \"id\": " + id + ",\n" +
+                " \"name\": \"" + name + "\",\n" +
+                " \"description\": \"" + description + "\",\n" +
+                " \"value\": " + value + ",\n" +
+                " \"quantity\": " + quantity + "\n" +
+                "}";
+    }
+	
+>>>>>>> c41614f6f072d799eefa32fb09bf7266c6b4e455
 }
