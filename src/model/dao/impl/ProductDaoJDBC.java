@@ -77,10 +77,11 @@ public class ProductDaoJDBC implements ProductDao{
                 Product product = instantiateProduct(rs);
                 listProducts.add(product);
             }
+
             return listProducts;
 
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Error when searching all products: " + e.getMessage(), 500);
         } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
