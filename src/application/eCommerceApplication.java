@@ -7,6 +7,7 @@ import model.entities.Product;
 public class eCommerceApplication {
     public static void main(String[] args) {
 
+
 		ProductDao productDao = DaoFactory.createProductDao();
 
 		System.out.println("Test Insert product");
@@ -19,3 +20,4 @@ public class eCommerceApplication {
 		}
 	}
 }
+
