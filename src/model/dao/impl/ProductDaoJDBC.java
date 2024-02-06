@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.ProductDao;
@@ -107,5 +108,42 @@ public class ProductDaoJDBC implements ProductDao{
     public void update(Product obj) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public List<Product> findAll() {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM products");
+            rs = st.executeQuery();
+
+            List<Product> listProducts = new ArrayList<>();
+
+            while (rs.next()) {
+                Product product = instantiateProduct(rs);
+                listProducts.add(product);
+            }
+
+            return listProducts;
+
+        } catch (SQLException e) {
+            throw new DbException("Error when searching all products: " + e.getMessage(), 500);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    //Método auxiliar para instanciar um produto a partir do ResultSet, para evitar repetir trechos de códigos
+    private Product instantiateProduct(ResultSet rs) throws SQLException {
+        Product product = new Product();
+        product.setId(rs.getInt("id"));
+        product.setName(rs.getString("name"));
+        product.setValue(rs.getDouble("value"));
+        product.setDescription(rs.getString("description"));
+        product.setQuantity(rs.getInt("quantity"));
+        return product;
+    
     }
 }
