@@ -9,6 +9,6 @@ public interface ProductDao {
     void createProduct(Product obj);
     void updateProduct(Product obj);
     List<Product> findAll();
-    Optional<Product> findById(Integer id);
-    List<Product> findByName(String name);
+    Optional<Product> findByIdProduct(Integer id);
+    List<Product> findByNameProduct(String name);
 }
