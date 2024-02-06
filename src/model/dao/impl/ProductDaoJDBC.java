@@ -23,7 +23,6 @@ public class ProductDaoJDBC implements ProductDao {
     }
 
     @Override
-<<<<<<< HEAD
     public void createProduct(Product obj) {
 
         if (obj.getName().length() < 1) {
@@ -61,18 +60,6 @@ public class ProductDaoJDBC implements ProductDao {
                 + "(?, ?, ?, ?, ?)", 
                 Statement.RETURN_GENERATED_KEYS);
 
-=======
-    public void insert(Product obj) {
-        PreparedStatement st = null;
-        try {
-            st = conn.prepareStatement(
-
-                    "INSERT INTO products "
-                            + "(id, name, value, description, quantity) "
-                            + "VALUES "
-                            + "(?, ?, ?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS);
->>>>>>> feature/search-product
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
