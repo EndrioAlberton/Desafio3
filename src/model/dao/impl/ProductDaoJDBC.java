@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import db.DB;
 import db.DbException;
+//import db.DbIntegrityException;
 import model.dao.ProductDao;
 import model.entities.Product;
 
@@ -21,7 +22,7 @@ public class ProductDaoJDBC implements ProductDao{
     }
 
     @Override
-    public void insert(Product obj) {
+    public void createProduct(Product obj) {
 
         if (obj.getName().length() < 1) {
             System.out.println("The product name can't be empty");
@@ -103,9 +104,16 @@ public class ProductDaoJDBC implements ProductDao{
         }
         return false;
     }
-
+   
     @Override
-    public void update(Product obj) {
+	public void deleteById(Integer id) {
+    	 // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+    
+    
+    @Override
+    public void updateProduct(Product obj) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
