@@ -6,4 +6,5 @@ public interface ProductDao {
 
     void createProduct(Product obj);
     void updateProduct(Product obj);
+    void deleteById(Integer id);
 }

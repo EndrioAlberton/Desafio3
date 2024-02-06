@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import db.DB;
 import db.DbException;
+//import db.DbIntegrityException;
 import model.dao.ProductDao;
 import model.entities.Product;
 
@@ -99,7 +100,14 @@ public class ProductDaoJDBC implements ProductDao{
         }
         return false;
     }
-
+   
+    @Override
+	public void deleteById(Integer id) {
+    	 // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+    
+    
     @Override
     public void updateProduct(Product obj) {
         // TODO Auto-generated method stub
