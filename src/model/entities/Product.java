@@ -10,17 +10,21 @@ public class Product implements Serializable {
 	private String description;
     private double value;
     private int quantity;
+	private String voltage;
+	private String brand;
     
 	public Product() {
 	}
-
-	public Product(String name, String description, double value, int quantity) {
+	
+	public Product(String name, String description, double value, int quantity, String voltage, String brand) {
 		this.name = name;
 		this.description = description;
 		this.value = value;
 		this.quantity = quantity;
+		this.voltage = voltage;
+		this.brand = brand;
 	}
-	
+
 	public Product(int id, String name, String description, double value, int quantity) {
 		this.id = id;
 		this.name = name;
@@ -68,8 +72,28 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-    
-    public String toString() {
+
+    public String getVoltage() {
+		return voltage;
+	}
+
+	public void setVoltage(String voltage) {
+		if (voltage.equals("110V") || voltage.equals("220V") || voltage.equals("BIVOLT")) {
+            this.voltage = voltage;
+        } else {
+            throw new IllegalArgumentException("Invalid voltage");
+        }
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String toString() {
         return "{\n" +
                 " \"id\": " + id + ",\n" +
                 " \"name\": \"" + name + "\",\n" +

@@ -56,9 +56,9 @@ public class ProductDaoJDBC implements ProductDao {
             st = conn.prepareStatement(
 
                     "INSERT INTO products "
-                            + "(id, name, value, description, quantity) "
+                            + "(id, name, value, description, quantity, brand, voltage) "
                             + "VALUES "
-                            + "(?, ?, ?, ?, ?)",
+                            + "(?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
 
             st.setInt(1, obj.getId());
@@ -66,6 +66,8 @@ public class ProductDaoJDBC implements ProductDao {
             st.setDouble(3, obj.getValue());
             st.setString(4, obj.getDescription());
             st.setInt(5, obj.getQuantity());
+            st.setString(6, obj.getBrand());
+            st.setString(7, obj.getVoltage());
 
             int rowsAffected = st.executeUpdate();
 

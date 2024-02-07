@@ -22,10 +22,10 @@ public class eCommerceApplication {
         System.out.println("5 - Delete product: Delete an existing product.");
         System.out.print("Option: ");
 
-        int opcao = scanner.nextInt();
+        int option = scanner.nextInt();
 		
 
-        switch (opcao) {
+        switch (option) {
             case 1:
                 List<Product> productList = productDao.findAll();
 
@@ -56,14 +56,39 @@ public class eCommerceApplication {
 
                 System.out.print("Description: ");
                 String description = scanner.nextLine();
-
+                
                 System.out.print("Value: ");
                 double value = scanner.nextDouble();
-
+                
                 System.out.print("Quantity: ");
                 int quantity = scanner.nextInt();
+                
+                System.out.print("Voltage 1- 110V 2- 220V 3- Bivolt: ");
+                int voltageOption = scanner.nextInt();
+                String voltage = null;
+                switch (voltageOption) {
+                    case 1:
+                    voltage = "110V";
+                    break;
+                    
+                    case 2:
+                    voltage = "220V";
+                    break;
+                    
+                    case 3:
+                    voltage = "BIVOLT";
+                    break;
+                    
+                    default:
+                    System.out.println("Invalid voltage option");
+                    break;
+                }
+                
+                scanner.nextLine();
+                System.out.print("Brand: ");
+                String brand = scanner.nextLine();
 
-				Product newProduct = new Product(name, description, value, quantity);
+				Product newProduct = new Product(name, description, value, quantity, voltage, brand);
 				productDao.createProduct(newProduct);
 
 
