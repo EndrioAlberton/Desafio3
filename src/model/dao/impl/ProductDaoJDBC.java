@@ -58,6 +58,7 @@ public class ProductDaoJDBC implements ProductDao {
              try {
                  st = conn.prepareStatement(
 
+<<<<<<< HEAD
                          "INSERT INTO products "
                                  + "(id, name, value, description, quantity) "
                                  + "VALUES "
@@ -66,6 +67,8 @@ public class ProductDaoJDBC implements ProductDao {
 /*
  * />>>>>>> feature/search-product
  */
+=======
+>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
@@ -109,6 +112,7 @@ public class ProductDaoJDBC implements ProductDao {
         return false;
     }
    
+<<<<<<< HEAD
     /*
      * esse método é utilizado para excluir um registro específico na
      * tabela "product" com base no ID fornecido como parâmetro
@@ -117,6 +121,13 @@ public class ProductDaoJDBC implements ProductDao {
 	public void deleteById(Integer id) {
 		
 	}*/
+=======
+    @Override
+	public void deleteById(Integer id) {
+    	 // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
     
     
     @Override

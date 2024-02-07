@@ -10,8 +10,8 @@ import model.entities.Product;
 public class eCommerceApplication {
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
 
-		Scanner scanner = new Scanner(System.in);
 		ProductDao productDao = DaoFactory.createProductDao();
 
         System.out.println("Select an option:");
@@ -23,7 +23,7 @@ public class eCommerceApplication {
         System.out.print("Option: ");
 
         int opcao = scanner.nextInt();
-		scanner.close();
+		
 
         switch (opcao) {
             case 1:
@@ -43,23 +43,47 @@ public class eCommerceApplication {
                     }
                 }
                 break;
+
             case 2:
                 // Buscar produto: Retorna as informações de um produto específico.
                 break;
+
             case 3:
-				System.out.println("Test Insert product");
-				Product newProduct = new Product( "Product name", "Description", 150.0, 2);
+                scanner.nextLine();
+				System.out.println("Create new product");
+                System.out.print("Product name: ");
+                String name = scanner.nextLine();
+
+                System.out.print("Description: ");
+                String description = scanner.nextLine();
+
+                System.out.print("Value: ");
+                double value = scanner.nextDouble();
+
+                System.out.print("Quantity: ");
+                int quantity = scanner.nextInt();
+
+				Product newProduct = new Product(name, description, value, quantity);
 				productDao.createProduct(newProduct);
-				System.out.println("Inserted! New id = " + newProduct.getId());
+
+
+                if (newProduct.getId() == 0) {
+                    System.out.println("\nProduct not created");
+                } else {    
+                    System.out.println("\nCreated! New product id: " + newProduct.getId());
+                }
                 break;
+
             case 4:
                 // Atualizar produto: atualiza as informações de um pedido existente.
                 break;
+
             case 5:
                 // Excluir produto: Excluir um produto existente.
                 break;
             default:
                 System.out.println("Invalid option.");
         }
+        scanner.close();
 	}
 }
