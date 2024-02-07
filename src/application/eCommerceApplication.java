@@ -105,7 +105,7 @@ public class eCommerceApplication {
                 System.out.print("Product id to update: ");
 				int id = scanner.nextInt();
 				Product product = productDao.findByIdProduct(id).orElse(null);
-                System.out.printf("\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity());
+                System.out.printf("\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity(), product.getVoltage(), product.getBrand());
 				
                 scanner.nextLine();
                 System.out.print("New name:");
@@ -119,14 +119,41 @@ public class eCommerceApplication {
                 
 				System.out.print("New quantity: ");
                 int newQuantity = scanner.nextInt();
+
+                System.out.print("Voltage 1- 110V 2- 220V 3- Bivolt: ");
+                int newVoltageOption = scanner.nextInt();
+                String newVoltage = null;
+                switch (newVoltageOption) {
+                    case 1:
+                    newVoltage = "110V";
+                    break;
+                    
+                    case 2:
+                    newVoltage = "220V";
+                    break;
+                    
+                    case 3:
+                    newVoltage = "BIVOLT";
+                    break;
+                    
+                    default:
+                    System.out.println("Invalid voltage option");
+                    break;
+                }
                 
+                scanner.nextLine();
+				System.out.print("New brand: ");
+                String newBrand = scanner.nextLine();
+
                 product.setName(newName);
                 product.setDescription(newDescription);
                 product.setValue(newValue);
                 product.setQuantity(newQuantity);
+                product.setVoltage(newVoltage);
+                product.setBrand(newBrand);
                 
 				productDao.updateProduct(product);
-                System.out.printf("\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity());
+                System.out.printf("\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity(), product.getVoltage(), product.getBrand());
                 break;
 
             case 5:

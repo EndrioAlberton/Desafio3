@@ -144,14 +144,16 @@ public class ProductDaoJDBC implements ProductDao {
         try {
             st = conn.prepareStatement(
                     "UPDATE products "
-                    + "SET name = ?, value = ?, description = ?, quantity = ? "
+                    + "SET name = ?, value = ?, description = ?, quantity = ?, brand = ?, voltage = ? "
                     + "WHERE id = ?");
 
                 st.setString(1, obj.getName());
                 st.setDouble(2, obj.getValue());
                 st.setString(3, obj.getDescription());
                 st.setInt(4, obj.getQuantity());
-                st.setInt(5, obj.getId());
+                st.setString(5, obj.getBrand());
+                st.setString(6, obj.getVoltage());
+                st.setInt(7, obj.getId());
 
                 st.executeUpdate();
 
