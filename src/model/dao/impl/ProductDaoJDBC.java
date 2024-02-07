@@ -104,10 +104,26 @@ public class ProductDaoJDBC implements ProductDao {
         return false;
     }
    
+    /*
+     * esse método é utilizado para excluir um registro específico na
+     * tabela "product" com base no ID fornecido como parâmetro
+     */
     @Override
 	public void deleteById(Integer id) {
-    	 // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM products WHERE Id = ?");
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
     
     
