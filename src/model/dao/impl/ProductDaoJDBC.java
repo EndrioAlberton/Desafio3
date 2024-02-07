@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import db.DB;
 import db.DbException;
+//import db.DbIntegrityException;
 import model.dao.ProductDao;
 import model.entities.Product;
 
@@ -102,7 +103,14 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return false;
     }
-
+   
+    @Override
+	public void deleteById(Integer id) {
+    	 // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+    
+    
     @Override
     public void updateProduct(Product obj) {
         if (obj.getName().length() < 1) {
@@ -153,7 +161,7 @@ public class ProductDaoJDBC implements ProductDao {
             }
     }
 
-    //busca todos os produtos armazenados no banco de dados
+    // busca todos os produtos armazenados no banco de dados
     @Override
     public List<Product> findAll() {
         PreparedStatement st = null;
@@ -168,19 +176,20 @@ public class ProductDaoJDBC implements ProductDao {
                 Product product = instantiateProduct(rs);
                 listProducts.add(product);
             }
+
             return listProducts;
 
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Error when searching all products: " + e.getMessage(), 500);
         } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
     }
 
-    //Método para buscar no banco de dados o produto com o id que o usário informou
+    // Método para buscar no banco de dados o produto com o id que o usário informou
     @Override
-    public Optional<Product> findById(Integer id) {
+    public Optional<Product> findByIdProduct(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
@@ -193,40 +202,42 @@ public class ProductDaoJDBC implements ProductDao {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Error while fetching product: " + e.getMessage(), 500);
         } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
     }
 
-        //Método para buscar no banco de dados os produtos com o nome que o usário informou
-        @Override
-        public List<Product> findByName(String name) {
-            PreparedStatement st = null;
-            ResultSet rs = null;
-            try {
-                st = conn.prepareStatement("SELECT * FROM products WHERE name LIKE ?");
-                st.setString(1, "%" + name + "%");
-                rs = st.executeQuery();
-    
-                List<Product> products = new ArrayList<>();
-    
-                while (rs.next()) {
-                    Product product = instantiateProduct(rs);
-                    products.add(product);
-                }
-    
-                return products;
-            } catch (SQLException e) {
-                throw new DbException(e.getMessage());
-            } finally {
-                DB.closeStatement(st);
-                DB.closeResultSet(rs);
-            }
-        }
+    // Método para buscar no banco de dados os produtos com o nome que o usário
+    // informou
+    @Override
+    public List<Product> findByNameProduct(String name) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM products WHERE name LIKE ?");
+            st.setString(1, "%" + name + "%");
+            rs = st.executeQuery();
 
-    //Método auxiliar para instanciar um produto a partir do ResultSet, para evitar repetir trechos de códigos
+            List<Product> products = new ArrayList<>();
+
+            while (rs.next()) {
+                Product product = instantiateProduct(rs);
+                products.add(product);
+            }
+
+            return products;
+        } catch (SQLException e) {
+            throw new DbException("Error while fetching product: " + e.getMessage(), 500);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    // Método auxiliar para instanciar um produto a partir do ResultSet, para evitar
+    // repetir trechos de códigos
     private Product instantiateProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
         product.setId(rs.getInt("id"));
@@ -235,6 +246,6 @@ public class ProductDaoJDBC implements ProductDao {
         product.setDescription(rs.getString("description"));
         product.setQuantity(rs.getInt("quantity"));
         return product;
-    
+
     }
 }
