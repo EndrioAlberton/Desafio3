@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import db.DB;
 import db.DbException;
+//import db.DbIntegrityException;
 import model.dao.ProductDao;
 import model.entities.Product;
 

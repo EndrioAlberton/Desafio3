@@ -70,7 +70,7 @@ public class eCommerceApplication {
                 if (newProduct.getId() == 0) {
                     System.out.println("\nProduct not created");
                 } else {    
-                    System.out.println("\nCreated! New product id = " + newProduct.getId());
+                    System.out.println("\nCreated! New product id: " + newProduct.getId());
                 }
                 break;
 
@@ -87,4 +87,3 @@ public class eCommerceApplication {
         scanner.close();
 	}
 }
-
