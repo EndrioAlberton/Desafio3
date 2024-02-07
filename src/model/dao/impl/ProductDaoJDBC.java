@@ -24,7 +24,6 @@ public class ProductDaoJDBC implements ProductDao {
     }
 
     @Override
-<<<<<<< HEAD
     public void createProduct(Product obj) {
 
         if (obj.getName().length() < 1) {
@@ -46,34 +45,27 @@ public class ProductDaoJDBC implements ProductDao {
             System.out.println("The value must be positive");
             return;
         }
+     
 
         if (obj.getQuantity() < 1) {
             System.out.println("Quantity needs at least 1 item");
             return;
         }
 
-        PreparedStatement st = null; 
-        try {
-            st = conn.prepareStatement (
-                
-                "INSERT INTO products "
-                + "(id, name, value, description, quantity) "
-                + "VALUES "
-                + "(?, ?, ?, ?, ?)", 
-                Statement.RETURN_GENERATED_KEYS);
+    }   
+        public void insert(Product obj) {
+        	 PreparedStatement st = null;
+             try {
+                 st = conn.prepareStatement(
 
-=======
-    public void insert(Product obj) {
-        PreparedStatement st = null;
-        try {
-            st = conn.prepareStatement(
-
-                    "INSERT INTO products "
-                            + "(id, name, value, description, quantity) "
-                            + "VALUES "
-                            + "(?, ?, ?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS);
->>>>>>> feature/search-product
+                         "INSERT INTO products "
+                                 + "(id, name, value, description, quantity) "
+                                 + "VALUES "
+                                 + "(?, ?, ?, ?, ?)",
+                         Statement.RETURN_GENERATED_KEYS);
+/*
+ * />>>>>>> feature/search-product
+ */
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
@@ -117,11 +109,14 @@ public class ProductDaoJDBC implements ProductDao {
         return false;
     }
    
-    @Override
+    /*
+     * esse método é utilizado para excluir um registro específico na
+     * tabela "product" com base no ID fornecido como parâmetro
+     */
+    /*@Override
 	public void deleteById(Integer id) {
-    	 // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-	}
+		
+	}*/
     
     
     @Override
@@ -215,6 +210,6 @@ public class ProductDaoJDBC implements ProductDao {
         product.setDescription(rs.getString("description"));
         product.setQuantity(rs.getInt("quantity"));
         return product;
-
+    
     }
 }
