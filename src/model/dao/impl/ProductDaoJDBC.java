@@ -103,9 +103,10 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return false;
     }
+    
    
     /*
-     * esse método é utilizado para excluir um registro específico na
+     * Método utilizado para excluir um registro específico na
      * tabela "product" com base no ID fornecido como parâmetro
      */
     @Override
@@ -125,7 +126,6 @@ public class ProductDaoJDBC implements ProductDao {
 			DB.closeStatement(st);
 		}
 	}
-    
     
     @Override
     public void updateProduct(Product obj) {

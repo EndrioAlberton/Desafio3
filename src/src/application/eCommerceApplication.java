@@ -80,7 +80,12 @@ public class eCommerceApplication {
 
             case 5:
                 // Excluir produto: Excluir um produto existente.
+            	System.out.println("\nDelete product:");
+        		int productId = scanner.nextInt();
+        		productDao.deleteById(productId);
+        		System.out.println("The product was successfully deleted!");
                 break;
+                
             default:
                 System.out.println("Invalid option.");
         }
