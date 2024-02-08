@@ -68,7 +68,8 @@ Turma Java Spring Boot</h1>
 
 #### <h2>Diagrama UML:</h2>
   <div align="left">
-  <img align="center" alt="diagramaUML" height="160" width="150" src="assets/diagramaUML.PNG">
+  <img align="center" alt="diagramaUML" height="350" width="330" src="assets/UMLatualizada.PNG">
   </div>
  
 ## <h2>Conclusão</h2>
+Portanto, as principais dificuldades enfrentadas pelo nosso grupo durante o desenvolvimento do desafio três foram associadas ao Github, pelo fato de ser a primeira vez que estamos usando a ferramenta em conjunto. Contudo, a colaboração foi o ponto forte do nosso grupo, destacando-se pela prontidão em auxiliar um ao outro quando necessário. No geral, o resultado final do desafio reflete o esforço conjunto e a capacidade de aplicar os conhecimentos adquiridos nos cursos, proporcionando um desfecho positivo para o trabalho realizado.
