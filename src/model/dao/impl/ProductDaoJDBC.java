@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import db.DB;
 import db.DbException;
 //import db.DbIntegrityException;
 import model.dao.ProductDao;
 import model.entities.Product;
 
-public class ProductDaoJDBC implements ProductDao{
+public class ProductDaoJDBC implements ProductDao {
 
     private Connection conn;
 
@@ -28,7 +30,7 @@ public class ProductDaoJDBC implements ProductDao{
             System.out.println("The product name can't be empty");
             return;
         }
-        
+
         if (isProductExists(obj.getName())) {
             System.out.println("Product with the same name already exists");
             return;
@@ -38,8 +40,8 @@ public class ProductDaoJDBC implements ProductDao{
             System.out.println("The description needs at least 10 characters");
             return;
         }
-        
-        if (obj.getValue() < 0) { 
+
+        if (obj.getValue() < 0) {
             System.out.println("The value must be positive");
             return;
         }
@@ -49,21 +51,23 @@ public class ProductDaoJDBC implements ProductDao{
             return;
         }
 
-        PreparedStatement st = null; 
+        PreparedStatement st = null;
         try {
-            st = conn.prepareStatement (
-                
-                "INSERT INTO products "
-                + "(id, name, value, description, quantity) "
-                + "VALUES "
-                + "(?, ?, ?, ?, ?)", 
-                Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement(
+
+                    "INSERT INTO products "
+                            + "(id, name, value, description, quantity, brand, voltage) "
+                            + "VALUES "
+                            + "(?, ?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
             st.setString(4, obj.getDescription());
             st.setInt(5, obj.getQuantity());
+            st.setString(6, obj.getBrand());
+            st.setString(7, obj.getVoltage());
 
             int rowsAffected = st.executeUpdate();
 
@@ -111,10 +115,57 @@ public class ProductDaoJDBC implements ProductDao{
     
     @Override
     public void updateProduct(Product obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (obj.getName().length() < 1) {
+            System.out.println("The product name can't be empty");
+            return;
+        }
+
+        if (isProductExists(obj.getName())) {
+            System.out.println("Product with the same name already exists");
+            return;
+        }
+
+        if (obj.getDescription().length() < 10) {
+            System.out.println("The description needs at least 10 characters");
+            return;
+        }
+
+        if (obj.getValue() < 0) {
+            System.out.println("The value must be positive");
+            return;
+        }
+
+        if (obj.getQuantity() < 1) {
+            System.out.println("Quantity needs at least 1 item");
+            return;
+        }
+
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+                    "UPDATE products "
+                    + "SET name = ?, value = ?, description = ?, quantity = ?, brand = ?, voltage = ? "
+                    + "WHERE id = ?");
+
+                st.setString(1, obj.getName());
+                st.setDouble(2, obj.getValue());
+                st.setString(3, obj.getDescription());
+                st.setInt(4, obj.getQuantity());
+                st.setString(5, obj.getBrand());
+                st.setString(6, obj.getVoltage());
+                st.setInt(7, obj.getId());
+
+                st.executeUpdate();
+
+            System.out.println("Updated!");
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+            } finally {
+                DB.closeStatement(st);
+            }
     }
 
+    // busca todos os produtos armazenados no banco de dados, atráves de uma consulta sql
     @Override
     public List<Product> findAll() {
         PreparedStatement st = null;
@@ -140,7 +191,57 @@ public class ProductDaoJDBC implements ProductDao{
         }
     }
 
-    //Método auxiliar para instanciar um produto a partir do ResultSet, para evitar repetir trechos de códigos
+    // Método para buscar no banco de dados o produto com o id que o usário informou
+    @Override
+    public Optional<Product> findByIdProduct(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM products WHERE id = ?");
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                Product product = instantiateProduct(rs);
+                return Optional.of(product);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new DbException("Error while fetching product: " + e.getMessage(), 500);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    // Método para buscar no banco de dados os produtos com o nome que o usário
+    // informou
+    @Override
+    public List<Product> findByNameProduct(String name) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM products WHERE name LIKE ?");
+            st.setString(1, "%" + name + "%");
+            rs = st.executeQuery();
+
+            List<Product> products = new ArrayList<>();
+
+            while (rs.next()) {
+                Product product = instantiateProduct(rs);
+                products.add(product);
+            }
+
+            return products;
+        } catch (SQLException e) {
+            throw new DbException("Error while fetching product: " + e.getMessage(), 500);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    // Método auxiliar para instanciar um produto a partir do ResultSet, para evitar
+    // repetir trechos de códigos
     private Product instantiateProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
         product.setId(rs.getInt("id"));
@@ -148,7 +249,9 @@ public class ProductDaoJDBC implements ProductDao{
         product.setValue(rs.getDouble("value"));
         product.setDescription(rs.getString("description"));
         product.setQuantity(rs.getInt("quantity"));
+        product.setVoltage(rs.getString("voltage"));
+        product.setBrand(rs.getString("brand"));
         return product;
-    
+
     }
 }
