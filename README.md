@@ -68,7 +68,7 @@ Turma Java Spring Boot</h1>
 
 #### <h2>Diagrama UML:</h2>
   <div align="left">
-  <img align="center" alt="diagramaUML" height="350" width="331" src="assets/UMLatualizada.PNG">
+  <img align="center" alt="diagramaUML" height="350" width="330" src="assets/UMLatualizada.PNG">
   </div>
  
 ## <h2>Conclusão</h2>
