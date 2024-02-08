@@ -93,13 +93,15 @@ public class Product implements Serializable {
 		this.brand = brand;
 	}
 
-	public String toString() {
+    public String toString() {
         return "{\n" +
                 " \"id\": " + id + ",\n" +
                 " \"name\": \"" + name + "\",\n" +
                 " \"description\": \"" + description + "\",\n" +
                 " \"value\": " + value + ",\n" +
-                " \"quantity\": " + quantity + "\n" +
+                " \"quantity\": " + quantity + ",\n" +
+                " \"voltage\": \"" + voltage + "\",\n" + 
+                " \"brand\": \"" + brand + "\"\n" + 
                 "}";
     }
 	

@@ -165,7 +165,7 @@ public class ProductDaoJDBC implements ProductDao {
             }
     }
 
-    // busca todos os produtos armazenados no banco de dados
+    // busca todos os produtos armazenados no banco de dados, atráves de uma consulta sql
     @Override
     public List<Product> findAll() {
         PreparedStatement st = null;
@@ -249,6 +249,8 @@ public class ProductDaoJDBC implements ProductDao {
         product.setValue(rs.getDouble("value"));
         product.setDescription(rs.getString("description"));
         product.setQuantity(rs.getInt("quantity"));
+        product.setVoltage(rs.getString("voltage"));
+        product.setBrand(rs.getString("brand"));
         return product;
 
     }
