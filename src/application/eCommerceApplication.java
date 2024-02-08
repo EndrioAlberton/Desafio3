@@ -140,8 +140,9 @@ public class eCommerceApplication {
                 break;
 
             case 4:
-                // Atualizar produto: atualiza as informações de um pedido existente.
-				System.out.println("Update product");
+            try {
+                
+                System.out.println("Update product");
                 System.out.print("Product id to update: ");
 				int id = scanner.nextInt();
 				Product product = productDao.findByIdProduct(id).orElse(null);
@@ -153,15 +154,35 @@ public class eCommerceApplication {
                 
 				System.out.print("New description: ");
                 String newDescription = scanner.nextLine();
-                
-				System.out.print("New value: ");
-                double newValue = scanner.nextDouble();
-                
-				System.out.print("New quantity: ");
-                int newQuantity = scanner.nextInt();
 
+                double newValue = 0.0; // Entrada padrão caso o usuário insira um valor inválido
+				System.out.print("New value: ");
+                try {
+                    newValue = scanner.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                } 
+                
+                int newQuantity = 0; // Entrada padrão caso o usuário insira um valor inválido
+				System.out.print("New quantity: ");
+                try {
+                    newQuantity = scanner.nextInt();
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                }
+                
+                int newVoltageOption = 0;
                 System.out.print("Voltage 1- 110V 2- 220V 3- Bivolt: ");
-                int newVoltageOption = scanner.nextInt();
+                try {
+                    newVoltageOption = scanner.nextInt();
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                }
                 String newVoltage = null;
                 switch (newVoltageOption) {
                     case 1:
@@ -184,7 +205,7 @@ public class eCommerceApplication {
                 scanner.nextLine();
 				System.out.print("New brand: ");
                 String newBrand = scanner.nextLine();
-
+                
                 product.setName(newName);
                 product.setDescription(newDescription);
                 product.setValue(newValue);
@@ -195,6 +216,11 @@ public class eCommerceApplication {
 				productDao.updateProduct(product);
                 System.out.printf("\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity(), product.getVoltage(), product.getBrand());
                 break;
+            } catch (Exception e) {
+                System.out.println("Unexpected error" + e.getMessage());
+            } finally {
+                scanner.close();
+            }
 
             case 5:
                 // Excluir produto: Excluir um produto existente.
