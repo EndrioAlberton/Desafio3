@@ -13,7 +13,7 @@ public class eCommerceApplication {
 
         Scanner scanner = new Scanner(System.in);
 
-		ProductDao productDao = DaoFactory.createProductDao();
+        ProductDao productDao = DaoFactory.createProductDao();
 
         System.out.println("Select an option:");
         System.out.println("1 - List products: return all products.");
@@ -24,7 +24,6 @@ public class eCommerceApplication {
         System.out.print("Option: ");
 
         int option = scanner.nextInt();
-		
 
         switch (option) {
             case 1:
@@ -87,24 +86,45 @@ public class eCommerceApplication {
                 }
                 break;
             case 3:
+            try {
+
                 scanner.nextLine();
-				System.out.println("Create new product");
+                System.out.println("Create new product");
                 System.out.print("Product name: ");
                 String name = scanner.nextLine();
-
+                
                 System.out.print("Description: ");
                 String description = scanner.nextLine();
                 
+                double value = 0.0; // Entrada padrão caso o usuário insira um valor inválido
                 System.out.print("Value: ");
-                double value = scanner.nextDouble();
+                try {
+                    value = scanner.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                }
                 
+                int quantity = 0; // Entrada padrão caso o usuário insira um valor inválido
                 System.out.print("Quantity: ");
-                int quantity = scanner.nextInt();
+                try {
+                    quantity = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                }
                 
-                //Opção de seleção de voltagem para o usuário
+                // Opção de seleção de voltagem para o usuário
                 System.out.print("Voltage 1- 110V 2- 220V 3- Bivolt: ");
-                int voltageOption = scanner.nextInt();
+                int voltageOption = 0; //Entrada padrão caso o usuário insira um valor inválido
+                try {
+                    voltageOption = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input for value. Please enter a valid number.");
+                    return;
+                }
                 String voltage = null;
+                
                 switch (voltageOption) {
                     case 1:
                     voltage = "110V";
@@ -126,34 +146,48 @@ public class eCommerceApplication {
                 scanner.nextLine();
                 System.out.print("Brand: ");
                 String brand = scanner.nextLine();
-
-                //Cria um novo objeto Product com as variáveis definidas pelo usuário
-				Product newProduct = new Product(name, description, value, quantity, voltage, brand);
-				productDao.createProduct(newProduct);
-
-
+                
+                // Cria um novo objeto Product com as variáveis definidas pelo usuário
+                Product newProduct = new Product(name, description, value, quantity, voltage, brand);
+                productDao.createProduct(newProduct);
+                
                 if (newProduct.getId() == 0) {
                     System.out.println("\nProduct not created");
-                } else {    
+                } else {
                     System.out.println("\nCreated! New product id: " + newProduct.getId());
                 }
                 break;
+            } catch (Exception e) {
+                System.out.println("Unexpected error" + e.getMessage());
+            } finally {
+                scanner.close();
+            }
 
             case 4:
+                // Atualizar produto: atualiza as informações de um pedido existente.
             try {
-                
                 System.out.println("Update product");
                 System.out.print("Product id to update: ");
-				int id = scanner.nextInt();
-				Product product = productDao.findByIdProduct(id).orElse(null);
-                System.out.printf("\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity(), product.getVoltage(), product.getBrand());
-				
+                int id = scanner.nextInt();
+                Product product = productDao.findByIdProduct(id).orElse(null);
+                System.out.printf(
+                        "\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n",
+                        product.getName(), product.getDescription(), product.getValue(), product.getQuantity(),
+                        product.getVoltage(), product.getBrand());
+
                 scanner.nextLine();
                 System.out.print("New name:");
                 String newName = scanner.nextLine();
-                
-				System.out.print("New description: ");
+
+                System.out.print("New description: ");
                 String newDescription = scanner.nextLine();
+
+                System.out.print("New value: ");
+                double newValue = scanner.nextDouble();
+
+                System.out.print("New quantity: ");
+                int newQuantity = scanner.nextInt();
+
 
                 double newValue = 0.0; // Entrada padrão caso o usuário insira um valor inválido
 				System.out.print("New value: ");
@@ -186,24 +220,24 @@ public class eCommerceApplication {
                 String newVoltage = null;
                 switch (newVoltageOption) {
                     case 1:
-                    newVoltage = "110V";
-                    break;
-                    
+                        newVoltage = "110V";
+                        break;
+
                     case 2:
-                    newVoltage = "220V";
-                    break;
-                    
+                        newVoltage = "220V";
+                        break;
+
                     case 3:
-                    newVoltage = "BIVOLT";
-                    break;
-                    
+                        newVoltage = "BIVOLT";
+                        break;
+
                     default:
-                    System.out.println("Invalid voltage option");
-                    break;
+                        System.out.println("Invalid voltage option");
+                        break;
                 }
-                
+
                 scanner.nextLine();
-				System.out.print("New brand: ");
+                System.out.print("New brand: ");
                 String newBrand = scanner.nextLine();
                 
                 product.setName(newName);
@@ -212,9 +246,12 @@ public class eCommerceApplication {
                 product.setQuantity(newQuantity);
                 product.setVoltage(newVoltage);
                 product.setBrand(newBrand);
-                
-				productDao.updateProduct(product);
-                System.out.printf("\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n", product.getName(), product.getDescription(), product.getValue(), product.getQuantity(), product.getVoltage(), product.getBrand());
+
+                productDao.updateProduct(product);
+                System.out.printf(
+                        "\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n",
+                        product.getName(), product.getDescription(), product.getValue(), product.getQuantity(),
+                        product.getVoltage(), product.getBrand());
                 break;
             } catch (Exception e) {
                 System.out.println("Unexpected error" + e.getMessage());
@@ -230,5 +267,5 @@ public class eCommerceApplication {
         }
         scanner.close();
 
-	}
+    }
 }
