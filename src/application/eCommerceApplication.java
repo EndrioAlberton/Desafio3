@@ -1,5 +1,6 @@
 package application;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,11 +44,48 @@ public class eCommerceApplication {
                     }
                 }
                 break;
-
             case 2:
-                // Buscar produto: Retorna as informações de um produto específico.
-                break;
+                System.out.println("How would you like to search for the product?");
+                System.out.println("1 - By ID");
+                System.out.println("2 - By name");
+                System.out.print("Enter your option: ");
+                try {
+                    int searchOption = scanner.nextInt();
+                    scanner.nextLine(); // Limpar o buffer de entrada
 
+                    switch (searchOption) {
+                        case 1:
+                            System.out.print("Enter the ID of the product you want to search for: ");
+                            int productId = scanner.nextInt();
+                            Product foundProductById = productDao.findByIdProduct(productId).orElse(null);
+                            if (foundProductById != null) {
+                                System.out.println("Product found:");
+                                System.out.println(foundProductById);
+                            } else {
+                                System.out.println("Product not found.");
+                            }
+                            break;
+                        case 2:
+                            System.out.print("Enter the name of the product you want to search for: ");
+                            String productName = scanner.nextLine();
+                            List<Product> foundProductsByName = productDao.findByNameProduct(productName);
+                            if (!foundProductsByName.isEmpty()) {
+                                System.out.println("Products found:");
+                                for (Product product : foundProductsByName) {
+                                    System.out.println(product);
+                                }
+                            } else {
+                                System.out.println("No products found with that name.");
+                            }
+                            break;
+                        default:
+                            System.out.println("Invalid option. Please select 1 or 2.");
+                            break;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid integer option.");
+                }
+                break;
             case 3:
                 scanner.nextLine();
 				System.out.println("Create new product");
