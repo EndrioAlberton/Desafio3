@@ -171,7 +171,7 @@ public class eCommerceApplication {
                 int id = scanner.nextInt();
                 Product product = productDao.findByIdProduct(id).orElse(null);
                 System.out.printf(
-                        "\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n",
+                        "\nActual info about the product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d \n Voltage: %s \n Brand: %s\n\n",
                         product.getName(), product.getDescription(), product.getValue(), product.getQuantity(),
                         product.getVoltage(), product.getBrand());
 
@@ -181,13 +181,6 @@ public class eCommerceApplication {
 
                 System.out.print("New description: ");
                 String newDescription = scanner.nextLine();
-
-                System.out.print("New value: ");
-                double newValue = scanner.nextDouble();
-
-                System.out.print("New quantity: ");
-                int newQuantity = scanner.nextInt();
-
 
                 double newValue = 0.0; // Entrada padrão caso o usuário insira um valor inválido
 				System.out.print("New value: ");
@@ -249,7 +242,7 @@ public class eCommerceApplication {
 
                 productDao.updateProduct(product);
                 System.out.printf(
-                        "\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d\n\n",
+                        "\nUpdated product: \n Name: %s \n Description: %s \n Value: %.2f \n Quantity: %d \n Voltage: %s \n Brand: %s\n\n",
                         product.getName(), product.getDescription(), product.getValue(), product.getQuantity(),
                         product.getVoltage(), product.getBrand());
                 break;
