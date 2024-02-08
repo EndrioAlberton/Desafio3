@@ -101,6 +101,7 @@ public class eCommerceApplication {
                 System.out.print("Quantity: ");
                 int quantity = scanner.nextInt();
                 
+                //Opção de seleção de voltagem para o usuário
                 System.out.print("Voltage 1- 110V 2- 220V 3- Bivolt: ");
                 int voltageOption = scanner.nextInt();
                 String voltage = null;
@@ -126,6 +127,7 @@ public class eCommerceApplication {
                 System.out.print("Brand: ");
                 String brand = scanner.nextLine();
 
+                //Cria um novo objeto Product com as variáveis definidas pelo usuário
 				Product newProduct = new Product(name, description, value, quantity, voltage, brand);
 				productDao.createProduct(newProduct);
 
