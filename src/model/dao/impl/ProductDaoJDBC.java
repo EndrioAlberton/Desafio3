@@ -52,13 +52,10 @@ public class ProductDaoJDBC implements ProductDao {
             return;
         }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     }   
         public void insert(Product obj) {
-        	 PreparedStatement st = null;
-             try {
-                 st = conn.prepareStatement(
-=======
+//=======
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
@@ -68,19 +65,15 @@ public class ProductDaoJDBC implements ProductDao {
                             + "VALUES "
                             + "(?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
->>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
+//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
 
-<<<<<<< HEAD
-                         "INSERT INTO products "
-                                 + "(id, name, value, description, quantity) "
-                                 + "VALUES "
-                                 + "(?, ?, ?, ?, ?)",
-                         Statement.RETURN_GENERATED_KEYS);
+//<<<<<<< HEAD
+
 /*
  * />>>>>>> feature/search-product
  */
-=======
->>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
+//=======
+//>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
@@ -126,8 +119,8 @@ public class ProductDaoJDBC implements ProductDao {
         return false;
     }
    
-<<<<<<< HEAD
-<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
     /*
      * esse método é utilizado para excluir um registro específico na
      * tabela "product" com base no ID fornecido como parâmetro
@@ -136,15 +129,15 @@ public class ProductDaoJDBC implements ProductDao {
 	public void deleteById(Integer id) {
 		
 	}*/
-=======
-=======
->>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
+//=======
+//=======
+//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
     @Override
 	public void deleteById(Integer id) {
     	 // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
 	}
->>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
+//>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
     
     
     @Override

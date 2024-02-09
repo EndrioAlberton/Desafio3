@@ -72,9 +72,9 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
     
-=======
+//=======
 
     public String getVoltage() {
 		return voltage;
@@ -96,7 +96,7 @@ public class Product implements Serializable {
 		this.brand = brand;
 	}
 
->>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
+//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
     public String toString() {
         return "{\n" +
                 " \"id\": " + id + ",\n" +
@@ -108,9 +108,9 @@ public class Product implements Serializable {
                 " \"brand\": \"" + brand + "\"\n" + 
                 "}";
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 }   
-=======
+//=======
 	
-}
->>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
+//}
+//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
