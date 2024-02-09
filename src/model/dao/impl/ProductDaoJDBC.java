@@ -45,15 +45,11 @@ public class ProductDaoJDBC implements ProductDao {
             System.out.println("The value must be positive");
             return;
         }
-     
 
         if (obj.getQuantity() < 1) {
             System.out.println("Quantity needs at least 1 item");
             return;
         }
-
-    }   
-        public void insert(Product obj) {
 
         PreparedStatement st = null;
         try {

@@ -1,7 +1,6 @@
-package src.application;
+package application;
 
 import java.util.InputMismatchException;
-//>>>>>>> origin/main
 import java.util.List;
 import java.util.Scanner;
 
