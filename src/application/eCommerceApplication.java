@@ -250,8 +250,12 @@ public class eCommerceApplication {
                         product.getName(), product.getDescription(), product.getValue(), product.getQuantity(),
                         product.getVoltage(), product.getBrand());
                 break;
+            } catch (NullPointerException e){
+                System.out.println("Product does not exist!");
+                return;
             } catch (Exception e) {
-                System.out.println("Unexpected error" + e.getMessage());
+                System.out.println("Unexpected error: " + e.getMessage());
+                return;
             } finally {
                 scanner.close();
             }
@@ -263,10 +267,10 @@ public class eCommerceApplication {
         		productDao.deleteById(productId);
         		System.out.println("The product was successfully deleted!");
                 break;
-
-            default:
+                
+                default:
                 System.out.println("Invalid option.");
-        }
-        scanner.close();
+                scanner.close();
+        }   
     }
 }
