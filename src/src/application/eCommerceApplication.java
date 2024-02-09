@@ -1,6 +1,7 @@
 package src.application;
 
 import java.util.InputMismatchException;
+//>>>>>>> origin/main
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class eCommerceApplication {
 
         Scanner scanner = new Scanner(System.in);
 
-        ProductDao productDao = DaoFactory.createProductDao();
+		ProductDao productDao = DaoFactory.createProductDao();
 
         System.out.println("Select an option:");
         System.out.println("1 - List products: return all products.");
@@ -26,6 +27,7 @@ public class eCommerceApplication {
         int option = scanner.nextInt();
 
         switch (option) {
+
             case 1:
                 List<Product> productList = productDao.findAll();
 
@@ -43,6 +45,7 @@ public class eCommerceApplication {
                     }
                 }
                 break;
+
             case 2:
                 System.out.println("How would you like to search for the product?");
                 System.out.println("1 - By ID");
@@ -55,8 +58,8 @@ public class eCommerceApplication {
                     switch (searchOption) {
                         case 1:
                             System.out.print("Enter the ID of the product you want to search for: ");
-                            int productId = scanner.nextInt();
-                            Product foundProductById = productDao.findByIdProduct(productId).orElse(null);
+                            int productId1 = scanner.nextInt();
+                            Product foundProductById = productDao.findByIdProduct(productId1).orElse(null);
                             if (foundProductById != null) {
                                 System.out.println("Product found:");
                                 System.out.println(foundProductById);
@@ -85,7 +88,9 @@ public class eCommerceApplication {
                     System.out.println("Invalid input. Please enter a valid integer option.");
                 }
                 break;
+                
             case 3:
+            	
             try {
 
                 scanner.nextLine();
@@ -254,11 +259,15 @@ public class eCommerceApplication {
 
             case 5:
                 // Excluir produto: Excluir um produto existente.
+            	System.out.println("\nDelete product:");
+        		int productId = scanner.nextInt();
+        		productDao.deleteById(productId);
+        		System.out.println("The product was successfully deleted!");
                 break;
+
             default:
                 System.out.println("Invalid option.");
         }
         scanner.close();
-
     }
 }

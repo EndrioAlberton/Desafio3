@@ -52,10 +52,9 @@ public class ProductDaoJDBC implements ProductDao {
             return;
         }
 
-//<<<<<<< HEAD
     }   
         public void insert(Product obj) {
-//=======
+
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
@@ -65,15 +64,7 @@ public class ProductDaoJDBC implements ProductDao {
                             + "VALUES "
                             + "(?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
-//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
 
-//<<<<<<< HEAD
-
-/*
- * />>>>>>> feature/search-product
- */
-//=======
-//>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
@@ -118,27 +109,29 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return false;
     }
-   
-//<<<<<<< HEAD
-//<<<<<<< HEAD
+    
     /*
-     * esse método é utilizado para excluir um registro específico na
+     * Método utilizado para excluir um registro específico na
      * tabela "product" com base no ID fornecido como parâmetro
      */
-    /*@Override
-	public void deleteById(Integer id) {
-		
-	}*/
-//=======
-//=======
-//>>>>>>> 6dfd8aee4860edce3ef463949ae3d9f5255fd75d
     @Override
 	public void deleteById(Integer id) {
-    	 // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM products WHERE Id = ?");
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 //>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
-    
     
     @Override
     public void updateProduct(Product obj) {
