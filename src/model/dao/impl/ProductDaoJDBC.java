@@ -30,7 +30,7 @@ public class ProductDaoJDBC implements ProductDao {
             System.out.println("The product name can't be empty");
             return;
         }
-        
+
         if (isProductExists(obj.getName())) {
             System.out.println("Product with the same name already exists");
             return;
@@ -40,32 +40,38 @@ public class ProductDaoJDBC implements ProductDao {
             System.out.println("The description needs at least 10 characters");
             return;
         }
-        
-        if (obj.getValue() < 0) { 
+
+        if (obj.getValue() < 0) {
             System.out.println("The value must be positive");
             return;
         }
+     
 
         if (obj.getQuantity() < 1) {
             System.out.println("Quantity needs at least 1 item");
             return;
         }
 
-        PreparedStatement st = null; 
+    }   
+        public void insert(Product obj) {
+
+        PreparedStatement st = null;
         try {
-            st = conn.prepareStatement (
-                
-                "INSERT INTO products "
-                + "(id, name, value, description, quantity) "
-                + "VALUES "
-                + "(?, ?, ?, ?, ?)", 
-                Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement(
+
+                    "INSERT INTO products "
+                            + "(id, name, value, description, quantity, brand, voltage) "
+                            + "VALUES "
+                            + "(?, ?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             st.setInt(1, obj.getId());
             st.setString(2, obj.getName());
             st.setDouble(3, obj.getValue());
             st.setString(4, obj.getDescription());
             st.setInt(5, obj.getQuantity());
+            st.setString(6, obj.getBrand());
+            st.setString(7, obj.getVoltage());
 
             int rowsAffected = st.executeUpdate();
 
@@ -104,7 +110,6 @@ public class ProductDaoJDBC implements ProductDao {
         return false;
     }
     
-   
     /*
      * Método utilizado para excluir um registro específico na
      * tabela "product" com base no ID fornecido como parâmetro
@@ -126,14 +131,61 @@ public class ProductDaoJDBC implements ProductDao {
 			DB.closeStatement(st);
 		}
 	}
+//>>>>>>> d2a585d39f0f500b8a331264e6930c4d5cce5576
     
     @Override
     public void updateProduct(Product obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (obj.getName().length() < 1) {
+            System.out.println("The product name can't be empty");
+            return;
+        }
+
+        if (isProductExists(obj.getName())) {
+            System.out.println("Product with the same name already exists");
+            return;
+        }
+
+        if (obj.getDescription().length() < 10) {
+            System.out.println("The description needs at least 10 characters");
+            return;
+        }
+
+        if (obj.getValue() < 0) {
+            System.out.println("The value must be positive");
+            return;
+        }
+
+        if (obj.getQuantity() < 1) {
+            System.out.println("Quantity needs at least 1 item");
+            return;
+        }
+
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+                    "UPDATE products "
+                    + "SET name = ?, value = ?, description = ?, quantity = ?, brand = ?, voltage = ? "
+                    + "WHERE id = ?");
+
+                st.setString(1, obj.getName());
+                st.setDouble(2, obj.getValue());
+                st.setString(3, obj.getDescription());
+                st.setInt(4, obj.getQuantity());
+                st.setString(5, obj.getBrand());
+                st.setString(6, obj.getVoltage());
+                st.setInt(7, obj.getId());
+
+                st.executeUpdate();
+
+            System.out.println("Updated!");
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+            } finally {
+                DB.closeStatement(st);
+            }
     }
 
-    // busca todos os produtos armazenados no banco de dados
+    // busca todos os produtos armazenados no banco de dados, atráves de uma consulta sql
     @Override
     public List<Product> findAll() {
         PreparedStatement st = null;
@@ -217,7 +269,9 @@ public class ProductDaoJDBC implements ProductDao {
         product.setValue(rs.getDouble("value"));
         product.setDescription(rs.getString("description"));
         product.setQuantity(rs.getInt("quantity"));
+        product.setVoltage(rs.getString("voltage"));
+        product.setBrand(rs.getString("brand"));
         return product;
-
+    
     }
 }
